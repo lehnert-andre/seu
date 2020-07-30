@@ -69,7 +69,7 @@ RUN echo "Adding permissions to ${ECLIPSE_INSTALL_DIR}/" \
 #
 FROM seu-with-eclipse as seu-with-intellij
 
-ARG JETBRAINS_INTELLIJ_URL=https://data.services.jetbrains.com/products/download?platform=linux&code=IIU
+ARG JETBRAINS_INTELLIJ_URL=https://data.services.jetbrains.com/products/download?platform=linux&code=IIC
 ARG JETBRAINS_INTELLIJ_DOWNLOAD_DEST=intellij.tar.gz
 ARG JETBRAINS_INTELLIJ_INSTALL_DIR=/opt/intellij
 ARG JETBRAINS_INTELLIJ_BIN=${JETBRAINS_INTELLIJ_INSTALL_DIR}/bin
