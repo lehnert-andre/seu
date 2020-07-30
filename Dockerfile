@@ -64,35 +64,3 @@ RUN echo "Adding permissions to ${ECLIPSE_INSTALL_DIR}/" \
   && mkdir -p $DESKTOP_DIR \
   && echo "[Desktop Entry]\nEncoding=UTF-8\nName=eclipse\nComment=eclipse\nExec=${ECLIPSE_INSTALL_DIR}/eclipse\nIcon=${ECLIPSE_INSTALL_DIR}/icon.xpm\nTerminal=false\nStartupNotify=true\nType=Application\nCategories=Development;IDE;Java" -e > ${ECLIPSE_DESKTOP_ICON}
 
-
-# install intellij IDE
-#
-FROM seu-with-eclipse as seu-with-intellij
-
-ARG JETBRAINS_INTELLIJ_URL=https://data.services.jetbrains.com/products/download?platform=linux&code=IIC
-ARG JETBRAINS_INTELLIJ_DOWNLOAD_DEST=intellij.tar.gz
-ARG JETBRAINS_INTELLIJ_INSTALL_DIR=/opt/intellij
-ARG JETBRAINS_INTELLIJ_BIN=${JETBRAINS_INTELLIJ_INSTALL_DIR}/bin
-ARG DESKTOP_DIR=/usr/local/share/applications
-ARG JETBRAINS_INTELLIJ_DESKTOP_ICON=/usr/local/share/applications/idea.desktop
-ARG JETBRAINS_INTELLIJ_DESKTOP_SYM_LINK_TARGET=${JETBRAINS_INTELLIJ_BIN}/idea.sh
-
-# Fetch the most recent version‚
-RUN echo "Downloading ${JETBRAINS_INTELLIJ_URL} to ${JETBRAINS_INTELLIJ_DOWNLOAD_DEST} ..." \
-  && wget -O $JETBRAINS_INTELLIJ_DOWNLOAD_DEST "$JETBRAINS_INTELLIJ_URL"
-
-# Extract intellij
-RUN mkdir $JETBRAINS_INTELLIJ_INSTALL_DIR \
-  && echo "Extracting ${JETBRAINS_INTELLIJ_DOWNLOAD_DEST} to ${JETBRAINS_INTELLIJ_INSTALL_DIR}/ ..." \
-  && tar -xzf ${JETBRAINS_INTELLIJ_DOWNLOAD_DEST} -C ${JETBRAINS_INTELLIJ_INSTALL_DIR} --strip-components=1 \
-  && rm $JETBRAINS_INTELLIJ_DOWNLOAD_DEST
-
-# Additional steps
-RUN echo "Adding permissions to ${JETBRAINS_INTELLIJ_INSTALL_DIR}/" \
-  && chmod -R +rwx ${JETBRAINS_INTELLIJ_INSTALL_DIR} \
-  # Add desktop shortcut
-  && mkdir -p $DESKTOP_DIR \
-  && echo "[Desktop Entry]\nEncoding=UTF-8\nName=idea\nComment=idea\nExec=${JETBRAINS_INTELLIJ_BIN}/idea.sh\nIcon=${JETBRAINS_INTELLIJ_BIN}/idea.png\nTerminal=false\nStartupNotify=true\nType=Application\nCategories=Development;IDE;Java" -e > ${JETBRAINS_INTELLIJ_DESKTOP_ICON} \
-  # Create symlink entry
-  && echo "Placing symbolic link to ${JETBRAINS_INTELLIJ_DESKTOP_SYM_LINK_TARGET} in /usr/local/bin/" \
-  && ln -sf ${JETBRAINS_INTELLIJ_DESKTOP_SYM_LINK_TARGET} /usr/local/bin/idea
