@@ -38,33 +38,6 @@ RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
 #  && apt-get install adoptopenjdk-13-hotspot # Java 13 / HotSpot VM
 #  && apt-get install adoptopenjdk-13-openj9  # Java 13 / OpenJ9 VM
 
-# install eclipse IDE
-#
-FROM seu-with-java as seu-with-eclipse
-
-ARG ECLIPSE_URL=http://ftp.halifax.rwth-aachen.de/eclipse//technology/epp/downloads/release/2020-06/R/eclipse-jee-2020-06-R-linux-gtk-x86_64.tar.gz
-ARG ECLIPSE_DOWNLOAD_DEST=eclipse.tar.gz
-ARG ECLIPSE_INSTALL_DIR=/opt/eclipse
-ARG ECLIPSE_DESKTOP_ICON=/usr/share/applications/eclipse.desktop
-ARG DESKTOP_DIR=/usr/local/share/applications
-
-RUN echo "Downloading ${ECLIPSE_URL} to ${ECLIPSE_DOWNLOAD_DEST} ..." \
-  && wget -O $ECLIPSE_DOWNLOAD_DEST "$ECLIPSE_URL"
-
-# Extract eclipse
-RUN mkdir ${ECLIPSE_INSTALL_DIR} \
-  && echo "Extracting ${ECLIPSE_DOWNLOAD_DEST} to ${ECLIPSE_INSTALL_DIR}/ ..." \
-  && tar -xzf ${ECLIPSE_DOWNLOAD_DEST} -C ${ECLIPSE_INSTALL_DIR} --strip-components=1 \
-  && rm $ECLIPSE_DOWNLOAD_DEST
-
-# Additional steps
-RUN echo "Adding permissions to ${ECLIPSE_INSTALL_DIR}/" \
-  && chmod -R +rwx ${ECLIPSE_INSTALL_DIR} \
-  # Add desktop shortcut
-  && mkdir -p $DESKTOP_DIR \
-  && echo "[Desktop Entry]\nEncoding=UTF-8\nName=eclipse\nComment=eclipse\nExec=${ECLIPSE_INSTALL_DIR}/eclipse\nIcon=${ECLIPSE_INSTALL_DIR}/icon.xpm\nTerminal=false\nStartupNotify=true\nType=Application\nCategories=Development;IDE;Java" -e > ${ECLIPSE_DESKTOP_ICON}
-
-
 # install intellij IDE
 #
 FROM seu-with-eclipse as seu-with-intellij
