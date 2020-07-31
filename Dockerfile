@@ -40,7 +40,7 @@ RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
 
 # install eclipse IDE
 #
-FROM seu-with-java as seu-with-eclipse
+FROM alehnert/seu:jdk11 as seu-with-eclipse
 
 ARG ECLIPSE_URL=http://ftp.halifax.rwth-aachen.de/eclipse//technology/epp/downloads/release/2020-06/R/eclipse-jee-2020-06-R-linux-gtk-x86_64.tar.gz
 ARG ECLIPSE_DOWNLOAD_DEST=eclipse.tar.gz
