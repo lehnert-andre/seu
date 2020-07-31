@@ -40,7 +40,7 @@ RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ \
 
 # install intellij IDE
 #
-FROM seu-with-eclipse as seu-with-intellij
+FROM alehnert/seu:jdk11 as seu-with-intellij
 
 ARG JETBRAINS_INTELLIJ_URL=https://data.services.jetbrains.com/products/download?platform=linux&code=IIC
 ARG JETBRAINS_INTELLIJ_DOWNLOAD_DEST=intellij.tar.gz
